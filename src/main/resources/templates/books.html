@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Popis knjiga</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<main class="card" style="max-width:980px;">
+    <div class="toolbar">
+        <div>
+            <h1 style="margin:0">Popis knjiga</h1>
+            <p class="sub" style="margin-top:4px">Pregled i administracija knjiga</p>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px">
+            <a href="/books/new" class="btn primary">+ Dodaj knjigu</a>
+
+            <!-- Odjava kao POST -->
+            <form id="logoutForm" method="post" action="/logout">
+                <button type="submit" class="btn secondary">Odjava</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert error" th:if="${param.forbidden}">
+        Nedozvoljena akcija: nemaš dopuštenje za ovu radnju.
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Naslov</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Godina</th>
+            <th>Akcije</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="b : ${books}">
+            <td th:text="${b.id}">1</td>
+            <td>
+                <span th:text="${b.title}">Naslov</span>
+                <span class="badge" th:if="${b.isbn}" th:text="'ISBN: ' + ${b.isbn}">ISBN: 0000</span>
+            </td>
+            <td th:text="${b.author}">Autor</td>
+            <td th:text="${b.isbn}">ISBN</td>
+            <td th:text="${b.yearPublished}">2025</td>
+            <td style="white-space:nowrap; display:flex; gap:8px">
+                <a th:href="@{|/books/${b.id}/edit|}" class="btn secondary">Uredi</a>
+                <form th:action="@{|/books/${b.id}/delete|}" method="post" onsubmit="return confirm('Obrisati ovu knjigu?');">
+                    <button type="submit" class="btn danger">Obriši</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(books)}">
+            <td colspan="6" style="text-align:center; color:#64748b">Nema zapisa.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="footer">© Mini biblioteka</div>
+</main>
+</body>
+</html>

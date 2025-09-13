@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Registracija</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<main class="card">
+    <h1>Registracija</h1>
+    <p class="sub">Kreiraj korisnički račun.</p>
+
+    <div class="alert" th:if="${param.msg}" th:text="${param.msg}">Uspješno!</div>
+    <div class="alert error" th:if="${param.err}" th:text="${param.err}">Greška!</div>
+
+    <form method="post" action="/register" autocomplete="off">
+        <div class="form-row">
+            <label for="username">Korisničko ime</label>
+            <input id="username" name="username" type="text" placeholder="npr. ana" required>
+        </div>
+
+        <div class="form-row">
+            <label for="password">Lozinka</label>
+            <input id="password" name="password" type="password" placeholder="••••••••" required>
+            <div class="toggle">
+                <span class="eye" onclick="togglePass()">prikaži/ sakrij</span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="submit">Registriraj</button>
+            <a class="link" href="/login">Već imam račun</a>
+        </div>
+
+    </form>
+
+    <div class="footer">© Mini biblioteka</div>
+</main>
+
+<script>
+    function togglePass(){
+        const el = document.getElementById('password');
+        el.type = el.type === 'password' ? 'text' : 'password';
+    }
+</script>
+</body>
+</html>

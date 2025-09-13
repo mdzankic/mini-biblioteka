@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title th:text="${formTitle}">Knjiga</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<main class="card" style="max-width:720px;">
+    <div class="toolbar">
+        <div>
+            <h1 style="margin:0" th:text="${formTitle}">Knjiga</h1>
+            <p class="sub" style="margin-top:4px">Unos ili uređivanje podataka o knjizi</p>
+        </div>
+        <div>
+            <a href="/books" class="btn secondary">← Natrag</a>
+        </div>
+    </div>
+
+    <!-- Forma za DODAVANJE (book.id == null) -->
+    <form class="form" th:if="${book.id == null}" method="post" th:action="@{/books}">
+        <div class="row">
+            <label for="add-title">Naslov</label>
+            <input id="add-title" name="title" type="text" placeholder="npr. Na Drini ćuprija" required>
+        </div>
+
+        <div class="row">
+            <label for="add-author">Autor</label>
+            <input id="add-author" name="author" type="text" placeholder="Ivo Andrić" required>
+        </div>
+
+        <div class="row inline">
+            <div class="col">
+                <label for="add-isbn">ISBN</label>
+                <input id="add-isbn" name="isbn" type="text" placeholder="978-...">
+                <span class="help">Opcionalno</span>
+            </div>
+            <div class="col">
+                <label for="add-yearPublished">Godina</label>
+                <input id="add-yearPublished" name="yearPublished" type="number" placeholder="1945">
+            </div>
+        </div>
+
+        <div class="actions right" style="display:flex; gap:10px">
+            <a href="/books" class="btn secondary">Odustani</a>
+            <button type="submit" class="btn primary">Spremi</button>
+        </div>
+    </form>
+
+    <!-- Forma za UREĐIVANJE (book.id != null) -->
+    <form class="form" th:unless="${book.id == null}" method="post" th:action="@{'/books/' + ${book.id}}">
+        <div class="row">
+            <label for="edit-title">Naslov</label>
+            <input id="edit-title" name="title" type="text" th:value="${book.title}" required>
+        </div>
+
+        <div class="row">
+            <label for="edit-author">Autor</label>
+            <input id="edit-author" name="author" type="text" th:value="${book.author}" required>
+        </div>
+
+        <div class="row inline">
+            <div class="col">
+                <label for="edit-isbn">ISBN</label>
+                <input id="edit-isbn" name="isbn" type="text" th:value="${book.isbn}">
+                <span class="help">Opcionalno</span>
+            </div>
+            <div class="col">
+                <label for="edit-yearPublished">Godina</label>
+                <input id="edit-yearPublished" name="yearPublished" type="number" th:value="${book.yearPublished}">
+            </div>
+        </div>
+
+        <div class="actions right" style="display:flex; gap:10px">
+            <a href="/books" class="btn secondary">Odustani</a>
+            <button type="submit" class="btn primary">Spremi</button>
+        </div>
+    </form>
+
+    <div class="footer">© Mini biblioteka</div>
+</main>
+</body>
+</html>

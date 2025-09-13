@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Prijava</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<main class="card">
+    <h1>Prijava</h1>
+    <p class="sub">Ulogiraj se za pristup aplikaciji.</p>
+
+    <!-- Poruke iz query parametara -->
+    <div class="alert" th:if="${param.registered}">Uspješna registracija. Prijavi se.</div>
+    <div class="alert" th:if="${param.logout}">Odjavljen/a si.</div>
+    <div class="alert error" th:if="${param.error}">Neispravno korisničko ime ili lozinka.</div>
+
+    <form method="post" th:action="@{/login}" autocomplete="off">
+        <div class="form-row">
+            <label for="username">Korisničko ime</label>
+            <input id="username" name="username" type="text" placeholder="npr. admin" required>
+        </div>
+
+        <div class="form-row">
+            <label for="password">Lozinka</label>
+            <input id="password" name="password" type="password" placeholder="••••••••" required>
+            <div class="toggle">
+                <span class="eye" onclick="togglePass()">prikaži/ sakrij</span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="submit">Prijava</button>
+            <a class="link" href="/register">Nemam račun – registracija</a>
+        </div>
+
+    </form>
+
+    <div class="footer">© Mini biblioteka</div>
+</main>
+
+<script>
+    function togglePass(){
+        const el = document.getElementById('password');
+        el.type = el.type === 'password' ? 'text' : 'password';
+    }
+</script>
+</body>
+</html>
